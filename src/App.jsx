@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 import Users from './containers/Users';
@@ -12,6 +12,7 @@ const App = () => {
         <Routes>
           <Route path='/users' element={<Users/>}/>
           <Route path='/users/:id' element={<User/>}/>
+          <Route path="*" element={<Navigate to="/users" replace />} />
         </Routes>
       </BrowserRouter>
     </Container>

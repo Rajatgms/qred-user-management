@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import UserCard from './UserCard';
 import UserModal from './UserModal';
 
@@ -21,6 +21,7 @@ const User = ({ user, fetchUserInfo, updateUserInfo }) => {
 
   return (
     <>
+      <Link to="/users">Back to Users</Link>
       <UserCard user={user} handleShow={handleShow} />
       {
         show && <UserModal user={user} show={show} handleClose={handleClose} handleUpdate={handleUpdate} />
