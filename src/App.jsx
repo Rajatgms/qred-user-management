@@ -1,12 +1,19 @@
 import React from 'react';
-import Users from './containers/Users';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+
+import Users from './containers/Users';
+import User from './containers/User';
 
 const App = () => {
   return (
     <Container>
-      <h1>Users</h1>
-      <Users />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/users' element={<Users/>}/>
+          <Route path='/users/:id' element={<User/>}/>
+        </Routes>
+      </BrowserRouter>
     </Container>
   );
 };

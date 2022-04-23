@@ -7,7 +7,7 @@ const addUsers = (response) => {
   };
 };
 
-export const fetchUsers = () => {
+export const usersAction = () => {
   return dispatch => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(result => result.json())
