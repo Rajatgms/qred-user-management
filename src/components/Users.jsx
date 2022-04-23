@@ -1,23 +1,27 @@
 import React, { useEffect } from 'react';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const Users = ({ users, fetchUsers }) => {
+const Users = ({ users: { data, error, isLoading }, getUsers }) => {
   useEffect(() => {
-    fetchUsers();
+    getUsers();
   }, []);
 
   return (
-    <>
+    <div className='text-center'>
       <h1>Users</h1>
-      <ListGroup>
-        {users.map((user) => (
-          <ListGroup.Item key={user.id}>
-            <Link to={`/users/${user.id}`}>{user.name}</Link>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
-    </>
+      {
+        isLoading ?
+          <Spinner animation='border' /> :
+          <ListGroup>
+            {data.map((user) => (
+              <ListGroup.Item key={user.id}>
+                <Link to={`/users/${user.id}`}>{user.name}</Link>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+      }
+    </div>
   );
 };
 

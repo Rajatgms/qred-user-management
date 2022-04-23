@@ -1,27 +1,61 @@
-export const FETCH_USER = 'FETCH_USER';
-export const UPDATE_USER = 'UPDATE_USER';
+export const FETCH_USER_START = 'FETCH_USER_STARTED';
+export const FETCH_USER_COMPLETED = 'FETCH_USER_COMPLETED';
+export const FETCH_USER_FAILED = 'FETCH_USER_FAILED';
 
-const addUser = (response) => {
+export const UPDATE_USER_START = 'UPDATE_USER_START';
+export const UPDATE_USER_COMPLETED = 'UPDATE_USER_COMPLETED';
+export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
+
+const fetchUserStart = () => {
   return {
-    type: FETCH_USER,
+    type: FETCH_USER_START,
+  };
+};
+
+const fetchUserCompleted = (response) => {
+  return {
+    type: FETCH_USER_COMPLETED,
     payload: response,
   };
 };
 
-const updateUser = (response) => {
+const fetchUserFailed = (error) => {
   return {
-    type: UPDATE_USER,
+    type: FETCH_USER_FAILED,
+    payload: error,
+  };
+};
+
+const updateUserStart = () => {
+  return {
+    type: UPDATE_USER_START,
+  };
+};
+
+const updateUserCompleted = (response) => {
+  return {
+    type: UPDATE_USER_COMPLETED,
     payload: response,
   };
 };
 
+const updateUserFailed = (error) => {
+  return {
+    type: UPDATE_USER_FAILED,
+    payload: error,
+  };
+};
 
 export const fetchUserInfo = (id) => {
   return dispatch => {
+    dispatch(fetchUserStart());
     fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
       .then(result => result.json())
       .then(response => {
-        dispatch(addUser(response));
+        dispatch(fetchUserCompleted(response));
+      })
+      .catch(error => {
+        dispatch(fetchUserFailed(error));
       });
   };
 };
@@ -33,10 +67,13 @@ export const updateUserInfo = (user) => {
     body: JSON.stringify(user)
   }
   return dispatch => {
+    dispatch(updateUserStart());
     fetch(`https://jsonplaceholder.typicode.com/users/${user.id}`, requestOption)
       .then(result => result.json())
       .then(response => {
-        dispatch(updateUser(response));
-      });
+        dispatch(updateUserCompleted(response));
+      }).catch(error => {
+      dispatch(updateUserFailed(error));
+    });
   };
 };

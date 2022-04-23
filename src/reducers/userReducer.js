@@ -1,19 +1,29 @@
-import { FETCH_USER, UPDATE_USER } from '../actions/userAction';
+import {
+  FETCH_USER_COMPLETED,
+  FETCH_USER_FAILED,
+  FETCH_USER_START,
+  UPDATE_USER_COMPLETED, UPDATE_USER_FAILED,
+  UPDATE_USER_START,
+} from '../actions/userAction';
 
 const initialUser = {
-  address: {
-    name: '',
-    zipcode: '',
-    city: '',
-  },
-  email: '',
-  phone: '',
+  data: null,
+  isLoading: false,
+  error: null,
 };
 const user = (user = initialUser, action) => {
-  if (action.type === FETCH_USER) {
-    return action.payload;
-  } else if (action.type === UPDATE_USER) {
-    return action.payload;
+  if (action.type === FETCH_USER_START) {
+    return { ...user, isLoading: true };
+  } else if (action.type === FETCH_USER_COMPLETED) {
+    return { data: action.payload, isLoading: false };
+  } else if (action.type === FETCH_USER_FAILED) {
+    return { ...initialUser, error: action.payload };
+  } else if (action.type === UPDATE_USER_START) {
+    return { ...user, isLoading: true };
+  } else if (action.type === UPDATE_USER_COMPLETED) {
+    return { data: action.payload, isLoading: false };
+  } else if (action.type === UPDATE_USER_FAILED) {
+    return { ...initialUser, error: action.payload };
   }
   return user;
 };
