@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
+import { ListGroup } from 'react-bootstrap';
 
 const Users = ({ users = [], fetchUsers }) => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
   return (
-    <section>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
-    </section>
+    <ListGroup>
+      {users.map((user) => (
+        <ListGroup.Item key={user.id}>{user.name}</ListGroup.Item>
+      ))}
+    </ListGroup>
   );
 };
 
