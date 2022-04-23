@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import UserCard from './UserCard';
 import UserModal from './UserModal';
 import Loader from '../../containers/Loader';
+import Notify from '../../containers/Notify';
 
 const User = ({ user: { data }, fetchUserInfo, updateUserInfo }) => {
   const id = useParams().id;
@@ -23,6 +24,7 @@ const User = ({ user: { data }, fetchUserInfo, updateUserInfo }) => {
   return (
     <>
       <Link to='/users'>Back to Users</Link>
+      <Notify />
       <Loader />
       <div className='text-center'>
         {

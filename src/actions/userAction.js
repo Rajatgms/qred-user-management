@@ -1,4 +1,5 @@
 import { hideLoader, showLoader } from './loaderAction';
+import { notifyError, notifySuccess } from './notifyAction';
 
 export const FETCH_USER_START = 'FETCH_USER_STARTED';
 export const FETCH_USER_COMPLETED = 'FETCH_USER_COMPLETED';
@@ -21,10 +22,9 @@ const fetchUserCompleted = (response) => {
   };
 };
 
-const fetchUserFailed = (error) => {
+const fetchUserFailed = () => {
   return {
     type: FETCH_USER_FAILED,
-    payload: error,
   };
 };
 
@@ -41,10 +41,9 @@ const updateUserCompleted = (response) => {
   };
 };
 
-const updateUserFailed = (error) => {
+const updateUserFailed = () => {
   return {
     type: UPDATE_USER_FAILED,
-    payload: error,
   };
 };
 
@@ -56,9 +55,11 @@ export const fetchUserInfo = (id) => {
       .then(result => result.json())
       .then(response => {
         dispatch(fetchUserCompleted(response));
+        dispatch(notifySuccess('User Details Fetched Successfully!!!'));
       })
       .catch(error => {
-        dispatch(fetchUserFailed(error));
+        dispatch(fetchUserFailed());
+        dispatch(notifyError(error));
       })
       .finally(() => {
         dispatch(hideLoader());
@@ -79,9 +80,11 @@ export const updateUserInfo = (user) => {
       .then(result => result.json())
       .then(response => {
         dispatch(updateUserCompleted(response));
+        dispatch(notifySuccess('User Details Updated Successfully!!!'));
       })
       .catch(error => {
-        dispatch(updateUserFailed(error));
+        dispatch(updateUserFailed());
+        dispatch(notifyError(error));
       })
       .finally(() => {
         dispatch(hideLoader());

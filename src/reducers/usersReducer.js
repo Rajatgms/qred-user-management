@@ -2,17 +2,15 @@ import { FETCH_USERS_COMPLETED, FETCH_USERS_FAILED, FETCH_USERS_START } from '..
 
 const initialUsersState = {
   data: [],
-  isLoading: false,
-  error: null
 };
 
 const usersReducer = (users = initialUsersState, action) => {
   if (action.type === FETCH_USERS_START) {
-    return { ...users, isLoading: true };
+    return { ...users };
   } else if (action.type === FETCH_USERS_COMPLETED) {
-    return { data: action.payload, isLoading: false };
+    return { data: action.payload };
   } else if (action.type === FETCH_USERS_FAILED) {
-    return { ...initialUsersState, error: action.payload };
+    return { ...initialUsersState };
   }
   return users;
 };

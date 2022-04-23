@@ -1,4 +1,5 @@
 import { hideLoader, showLoader } from './loaderAction';
+import { notifyError, notifySuccess } from './notifyAction';
 
 export const FETCH_USERS_START = 'FETCH_USERS_START';
 export const FETCH_USERS_COMPLETED = 'FETCH_USERS_COMPLETED';
@@ -17,10 +18,9 @@ const fetchUserCompleted = (response) => {
   };
 };
 
-const fetchUserFailed = (error) => {
+const fetchUserFailed = () => {
   return {
     type: FETCH_USERS_FAILED,
-    payload: error,
   };
 };
 
@@ -32,9 +32,11 @@ export const getUsers = () => {
       .then(result => result.json())
       .then(response => {
         dispatch(fetchUserCompleted(response));
+        dispatch(notifySuccess('Users Fetched Successfully!!!'))
       })
       .catch(error => {
-        dispatch(fetchUserFailed(error));
+        dispatch(fetchUserFailed());
+        dispatch(notifyError(error))
       })
       .finally(() => {
         dispatch(hideLoader());
