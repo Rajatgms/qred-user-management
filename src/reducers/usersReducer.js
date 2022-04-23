@@ -6,7 +6,7 @@ const initialUsersState = {
   error: null
 };
 
-const users = (users = initialUsersState, action) => {
+const usersReducer = (users = initialUsersState, action) => {
   if (action.type === FETCH_USERS_START) {
     return { ...users, isLoading: true };
   } else if (action.type === FETCH_USERS_COMPLETED) {
@@ -17,4 +17,4 @@ const users = (users = initialUsersState, action) => {
   return users;
 };
 
-export default users;
+export default usersReducer;

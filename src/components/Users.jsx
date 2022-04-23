@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { ListGroup, Spinner } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Loader from '../containers/Loader';
 
-const Users = ({ users: { data, error, isLoading }, getUsers }) => {
+const Users = ({ users: { data }, getUsers }) => {
   useEffect(() => {
     getUsers();
   }, []);
@@ -10,17 +11,15 @@ const Users = ({ users: { data, error, isLoading }, getUsers }) => {
   return (
     <div className='text-center'>
       <h1>Users</h1>
-      {
-        isLoading ?
-          <Spinner animation='border' /> :
-          <ListGroup>
-            {data.map((user) => (
-              <ListGroup.Item key={user.id}>
-                <Link to={`/users/${user.id}`}>{user.name}</Link>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-      }
+      <Loader />
+      <ListGroup>
+        {data.map((user) => (
+          <ListGroup.Item key={user.id}>
+            <Link to={`/users/${user.id}`}>{user.name}</Link>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+
     </div>
   );
 };

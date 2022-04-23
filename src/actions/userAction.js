@@ -1,3 +1,5 @@
+import { hideLoader, showLoader } from './loaderAction';
+
 export const FETCH_USER_START = 'FETCH_USER_STARTED';
 export const FETCH_USER_COMPLETED = 'FETCH_USER_COMPLETED';
 export const FETCH_USER_FAILED = 'FETCH_USER_FAILED';
@@ -49,6 +51,7 @@ const updateUserFailed = (error) => {
 export const fetchUserInfo = (id) => {
   return dispatch => {
     dispatch(fetchUserStart());
+    dispatch(showLoader());
     fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
       .then(result => result.json())
       .then(response => {
@@ -56,6 +59,9 @@ export const fetchUserInfo = (id) => {
       })
       .catch(error => {
         dispatch(fetchUserFailed(error));
+      })
+      .finally(() => {
+        dispatch(hideLoader());
       });
   };
 };
@@ -68,12 +74,17 @@ export const updateUserInfo = (user) => {
   }
   return dispatch => {
     dispatch(updateUserStart());
+    dispatch(showLoader());
     fetch(`https://jsonplaceholder.typicode.com/users/${user.id}`, requestOption)
       .then(result => result.json())
       .then(response => {
         dispatch(updateUserCompleted(response));
-      }).catch(error => {
-      dispatch(updateUserFailed(error));
-    });
+      })
+      .catch(error => {
+        dispatch(updateUserFailed(error));
+      })
+      .finally(() => {
+        dispatch(hideLoader());
+      });
   };
 };

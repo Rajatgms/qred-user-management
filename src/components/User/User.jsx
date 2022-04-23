@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Spinner } from 'react-bootstrap';
 import UserCard from './UserCard';
 import UserModal from './UserModal';
+import Loader from '../../containers/Loader';
 
-const User = ({ user: { data, isLoading }, fetchUserInfo, updateUserInfo }) => {
+const User = ({ user: { data }, fetchUserInfo, updateUserInfo }) => {
   const id = useParams().id;
   const [show, setShow] = useState(false);
 
@@ -23,16 +23,15 @@ const User = ({ user: { data, isLoading }, fetchUserInfo, updateUserInfo }) => {
   return (
     <>
       <Link to='/users'>Back to Users</Link>
+      <Loader />
       <div className='text-center'>
         {
-          isLoading ?
-            <Spinner animation='border' /> :
-            data && <>
-              <UserCard user={data} handleShow={handleShow} />
-              {
-                show && <UserModal user={data} show={show} handleClose={handleClose} handleUpdate={handleUpdate} />
-              }
-            </>
+          data && <>
+            <UserCard user={data} handleShow={handleShow} />
+            {
+              show && <UserModal user={data} show={show} handleClose={handleClose} handleUpdate={handleUpdate} />
+            }
+          </>
         }
       </div>
     </>
