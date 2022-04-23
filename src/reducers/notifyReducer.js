@@ -7,7 +7,8 @@ const initialNotifyState = {
 
 const loaderReducer = (notify = initialNotifyState, action) => {
   if (action.type === NOTIFY_ERROR) {
-    return { variant: 'error', message: action.payload };
+    const {status, data} = action.payload.response;
+    return { variant: 'danger', message: `Status - ${status}: ${data}` };
   } else if (action.type === NOTIFY_SUCCESS) {
     return { variant: 'success', message: action.payload };
   } else if (action.type === NOTIFY_RESET) {

@@ -1,5 +1,6 @@
 import { hideLoader, showLoader } from './loaderAction';
 import { notifyError, notifySuccess } from './notifyAction';
+import axios from 'axios';
 
 export const FETCH_USERS_START = 'FETCH_USERS_START';
 export const FETCH_USERS_COMPLETED = 'FETCH_USERS_COMPLETED';
@@ -28,10 +29,9 @@ export const getUsers = () => {
   return dispatch => {
     dispatch(showLoader());
     dispatch(fetchUserStart());
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(result => result.json())
+    axios.get('https://jsonplaceholder.typicode.com/users')
       .then(response => {
-        dispatch(fetchUserCompleted(response));
+        dispatch(fetchUserCompleted(response.data));
         dispatch(notifySuccess('Users Fetched Successfully!!!'))
       })
       .catch(error => {

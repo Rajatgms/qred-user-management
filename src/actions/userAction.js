@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { hideLoader, showLoader } from './loaderAction';
 import { notifyError, notifySuccess } from './notifyAction';
 
@@ -51,10 +52,9 @@ export const fetchUserInfo = (id) => {
   return dispatch => {
     dispatch(fetchUserStart());
     dispatch(showLoader());
-    fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-      .then(result => result.json())
+    axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
       .then(response => {
-        dispatch(fetchUserCompleted(response));
+        dispatch(fetchUserCompleted(response.data));
         dispatch(notifySuccess('User Details Fetched Successfully!!!'));
       })
       .catch(error => {
@@ -68,18 +68,12 @@ export const fetchUserInfo = (id) => {
 };
 
 export const updateUserInfo = (user) => {
-  const requestOption = {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user)
-  }
   return dispatch => {
     dispatch(updateUserStart());
     dispatch(showLoader());
-    fetch(`https://jsonplaceholder.typicode.com/users/${user.id}`, requestOption)
-      .then(result => result.json())
+    axios.put(`https://jsonplaceholder.typicode.com/users/${user.id}`, user)
       .then(response => {
-        dispatch(updateUserCompleted(response));
+        dispatch(updateUserCompleted(response.data));
         dispatch(notifySuccess('User Details Updated Successfully!!!'));
       })
       .catch(error => {
